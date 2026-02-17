@@ -1,0 +1,66 @@
+format_version: '13'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+
+project_type: android
+
+app:
+  envs:
+  - GRADLE_OPTS: -Dfile.encoding=UTF-8 -Xmx2048m
+
+workflows:
+  primary:
+    description: Run unit tests, build release APK, and deploy to Firebase App Distribution.
+    steps:
+    - git-clone: {}
+    - script:
+        title: Run unit tests
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+            set -e
+            chmod +x ./gradlew
+            ./gradlew test --no-daemon --stacktrace
+    - android-build:
+        inputs:
+        - project_location: $BITRISE_SOURCE_DIR
+        - module: app
+        - variant: release
+        - build_type: apk
+    - firebase-app-distribution:
+        inputs:
+        - app: $FIREBASE_APP_ID
+        - firebase_token: $FIREBASE_TOKEN
+        - groups: internal-testers
+        - app_path: $BITRISE_APK_PATH
+
+  ui-tests:
+    description: Run unit tests and instrumented (UI) tests. Use an Android stack with emulator.
+    steps:
+    - git-clone: {}
+    - script:
+        title: Run unit tests
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+            set -e
+            chmod +x ./gradlew
+            ./gradlew test --no-daemon --stacktrace
+    - android-build:
+        inputs:
+        - project_location: $BITRISE_SOURCE_DIR
+        - module: app
+        - variant: debug
+        - build_type: apk
+    - script:
+        title: Run instrumented (UI) tests
+        inputs:
+        - content: |
+            #!/usr/bin/env bash
+            set -e
+            ./gradlew connectedDebugAndroidTest --no-daemon --stacktrace
+        run_if: 'true'
+
+meta:
+  bitrise.io:
+    stack: android
+    machine_type_id: standard
