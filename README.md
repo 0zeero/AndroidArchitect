@@ -15,6 +15,25 @@ This project demonstrates a multi-module architecture with Jetpack Compose, with
 Features communicate via the `core` module.
 *   **Navigation**: Features emit commands to `NavigationManager` (in `core`). The `app` module observes these commands and performs the navigation.
 
+## GitHub
+
+This project is a Git repo (branch `main`). To push it to GitHub:
+
+1. **Create a new repository** on [GitHub](https://github.com/new):
+   - Name it e.g. `AndroidArchitectureProject`.
+   - Do **not** add a README, .gitignore, or license (they already exist here).
+
+2. **Add the GitHub remote and push** (replace `YOUR_USERNAME` with your GitHub username):
+
+   ```bash
+   git remote add origin https://github.com/YOUR_USERNAME/AndroidArchitectureProject.git
+   git push -u origin main
+   ```
+
+   If you use SSH: `git remote add origin git@github.com:YOUR_USERNAME/AndroidArchitectureProject.git`
+
+After that, you can connect this repo to Bitrise (Add new app → connect GitHub → select this repository).
+
 ## Setup
 
 1.  Open this project in **Android Studio**.
