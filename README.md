@@ -17,22 +17,23 @@ Features communicate via the `core` module.
 
 ## GitHub
 
-This project is a Git repo (branch `main`). To push it to GitHub:
+This project is a Git repo (branch `main`). The GitHub repo is **AndroidArchitect**.
 
-1. **Create a new repository** on [GitHub](https://github.com/new):
-   - Name it e.g. `AndroidArchitectureProject`.
-   - Do **not** add a README, .gitignore, or license (they already exist here).
+**Add the remote and push** (replace `YOUR_USERNAME` with your GitHub username):
 
-2. **Add the GitHub remote and push** (replace `YOUR_USERNAME` with your GitHub username):
+```bash
+git remote add origin https://github.com/YOUR_USERNAME/AndroidArchitect.git
+git push -u origin main
+```
 
-   ```bash
-   git remote add origin https://github.com/YOUR_USERNAME/AndroidArchitectureProject.git
-   git push -u origin main
-   ```
+Using SSH:
 
-   If you use SSH: `git remote add origin git@github.com:YOUR_USERNAME/AndroidArchitectureProject.git`
+```bash
+git remote add origin git@github.com:YOUR_USERNAME/AndroidArchitect.git
+git push -u origin main
+```
 
-After that, you can connect this repo to Bitrise (Add new app → connect GitHub → select this repository).
+Then connect this repo to Bitrise: Add new app → GitHub → select **AndroidArchitect**.
 
 ## Setup
 
