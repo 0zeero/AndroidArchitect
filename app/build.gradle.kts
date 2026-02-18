@@ -1,10 +1,11 @@
+import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
-    id("com.google.firebase.firebase-appdistribution")
+    id("com.google.firebase.appdistribution")
 }
 
 android {
@@ -24,6 +25,11 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            firebaseAppDistribution {
+                groups = "internal-testers"
+                // Set FIREBASE_SERVICE_CREDENTIALS_PATH in CI or uncomment:
+                // serviceCredentialsFile.set(file("firebase-app-distribution-key.json"))
+            }
         }
     }
     compileOptions {
@@ -37,19 +43,13 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
         }
     }
-}
-
-firebaseAppDistribution {
-    releaseGroups.set(listOf("internal-testers"))
-    // Set FIREBASE_SERVICE_CREDENTIALS_PATH in CI or uncomment:
-    // serviceCredentialsFile.set(file("firebase-app-distribution-key.json"))
 }
 
 dependencies {
@@ -59,15 +59,16 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.1")
+    implementation("androidx.navigation:navigation-compose:2.7.6")
     implementation(platform("androidx.compose:compose-bom:2023.08.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
 
-    // DI - Hilt
+    // DI - Hilt (KSP avoids JDK 17+ module access issues that KAPT has)
     implementation("com.google.dagger:hilt-android:2.50")
-    kapt("com.google.dagger:hilt-android-compiler:2.50")
+    ksp("com.google.dagger:hilt-compiler:2.50")
 
     // Unit tests
     testImplementation("junit:junit:4.13.2")
@@ -82,6 +83,6 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.50")
-    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.50")
+    kspAndroidTest("com.google.dagger:hilt-compiler:2.50")
 }
 

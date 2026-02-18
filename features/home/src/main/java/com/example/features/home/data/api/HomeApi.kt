@@ -1,5 +1,6 @@
 package com.example.features.home.data.api
 
+import com.example.features.home.data.model.FeaturedItemDto
 import com.example.features.home.data.model.HomeResponse
 import retrofit2.http.GET
 
