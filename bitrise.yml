@@ -18,9 +18,15 @@ workflows:
         inputs:
         - content: |
             #!/usr/bin/env bash
-            set -e
+            set +e
             chmod +x ./gradlew
-            ./gradlew :app:testDebugUnitTest :app:testReleaseUnitTest :core:testDebugUnitTest :core:testReleaseUnitTest --no-daemon --stacktrace
+            ./gradlew :app:testDebugUnitTest :app:testReleaseUnitTest :core:testDebugUnitTest :core:testReleaseUnitTest :features:home:testDebugUnitTest :features:home:testReleaseUnitTest --no-daemon --stacktrace
+            status=$?
+            if [ $status -ne 0 ]; then
+              echo "=== Unit test failure: showing test reports ==="
+              find . -path "*/build/test-results/*" -name "*.xml" -exec echo "--- {} ---" \; -exec cat {} \;
+              exit $status
+            fi
     - android-build:
         inputs:
         - project_location: $BITRISE_SOURCE_DIR
@@ -43,9 +49,15 @@ workflows:
         inputs:
         - content: |
             #!/usr/bin/env bash
-            set -e
+            set +e
             chmod +x ./gradlew
-            ./gradlew :app:testDebugUnitTest :app:testReleaseUnitTest :core:testDebugUnitTest :core:testReleaseUnitTest --no-daemon --stacktrace
+            ./gradlew :app:testDebugUnitTest :app:testReleaseUnitTest :core:testDebugUnitTest :core:testReleaseUnitTest :features:home:testDebugUnitTest :features:home:testReleaseUnitTest --no-daemon --stacktrace
+            status=$?
+            if [ $status -ne 0 ]; then
+              echo "=== Unit test failure: showing test reports ==="
+              find . -path "*/build/test-results/*" -name "*.xml" -exec echo "--- {} ---" \; -exec cat {} \;
+              exit $status
+            fi
     - android-build:
         inputs:
         - project_location: $BITRISE_SOURCE_DIR

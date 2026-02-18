@@ -47,7 +47,9 @@ android {
     }
     testOptions {
         unitTests {
-            isIncludeAndroidResources = true
+            // Disabled for CI: Bitrise can fail when resolving Android resources in unit tests.
+            // Re-enable if app unit tests need to access Android resources.
+            isIncludeAndroidResources = false
         }
     }
 }
