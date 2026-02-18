@@ -20,7 +20,7 @@ workflows:
             #!/usr/bin/env bash
             set -e
             chmod +x ./gradlew
-            ./gradlew test --no-daemon --stacktrace
+            ./gradlew :app:testDebugUnitTest :app:testReleaseUnitTest :core:testDebugUnitTest :core:testReleaseUnitTest --no-daemon --stacktrace
     - android-build:
         inputs:
         - project_location: $BITRISE_SOURCE_DIR
@@ -45,7 +45,7 @@ workflows:
             #!/usr/bin/env bash
             set -e
             chmod +x ./gradlew
-            ./gradlew test --no-daemon --stacktrace
+            ./gradlew :app:testDebugUnitTest :app:testReleaseUnitTest :core:testDebugUnitTest :core:testReleaseUnitTest --no-daemon --stacktrace
     - android-build:
         inputs:
         - project_location: $BITRISE_SOURCE_DIR
